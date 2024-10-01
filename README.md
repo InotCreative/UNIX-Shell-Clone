@@ -22,4 +22,4 @@ To compile and run the shell clone, you will need:
 
    ```bash
    git clone https://github.com/InotCreative/UNIX-Shell-Clone.git
-   cd unix-shell-clone
+   cd UNIX-Shell-Clone
