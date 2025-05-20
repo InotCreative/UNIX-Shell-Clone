@@ -1,14 +1,4 @@
-#ifndef command_execute_c
-#define command_execute_c
-
-#include "string_handler.c"
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <wait.h>
-
-#define FORK_ERROR perror("FORK"), exit(EXIT_FAILURE)
-#define EXEC_ERROR perror("EXEC"), exit(EXIT_FAILURE)
+#include "command_execute.h"
 
 void executeCommands(StringArray *arguementArray) {
     int32_t childProcess = fork();
@@ -21,5 +11,3 @@ void executeCommands(StringArray *arguementArray) {
         waitpid(childProcess, NULL, 0);
     }
 }
-
-#endif

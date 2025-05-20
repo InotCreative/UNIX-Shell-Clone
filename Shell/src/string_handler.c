@@ -1,26 +1,4 @@
-#ifndef string_handler_c
-#define string_handler_c
-
-#include <stdio.h>
-#include <string.h>
-#include <stdint.h>
-#include <stdlib.h>
-#include <stdbool.h>
-
-#define WHITE_SPACE " \t\n"
-#define INITAL_CAPACITY 8
-
-#define MEMORY_TEST(arrayPtr) {if (arrayPtr == NULL) {printf("ERROR MALLOC"); return;}}
-
-typedef struct StringArray {
-    uint32_t size;
-    uint32_t capacity;
-    uint8_t **array;
-
-    void (* printArray)(struct StringArray *, uint8_t);
-    void (* freeArray)(struct StringArray *);
-    void (* push)(struct StringArray *, uint8_t *, uint8_t);
-} StringArray;
+#include "string_handler.h"
 
 void growArray(StringArray *array) {
     if (array->array == NULL) {
@@ -35,6 +13,7 @@ void growArray(StringArray *array) {
         
     }
 }
+
 void push(StringArray *array, uint8_t *string, uint8_t flag) {
     if (flag == 0) {
         array->array[array->size] = string;
@@ -140,5 +119,3 @@ void init(StringArray *array) {
     array->printArray = printArray; 
     array->push       = push;
 }
-
-#endif

@@ -1,19 +1,18 @@
-#ifdef batch_file_reading_c
-#define batch_file_reading_c
+#include "batch_file_reading.h"
+#include "command_execute.h"
+#include "string_handler.h"
 
-#include "command_execute.c"
-#include "string_handler.c"
+#define FILE_CHECK(filePtr) {if (filePtr == NULL) {perror("FILE"); exit(EXIT_FAILURE);}}
 
 void readAndExecuteBatchScript(const char *filePath) {
     FILE *inputFile = fopen(filePath, "r");
-
-    if (inputFile == NULL) {
-        perror("FILE OPENING");
-        exit(EXIT_FAILURE);
-    }
+    FILE_CHECK(inputFile);
 
     StringArray fileLines;
+    StringArray arguements;
+    
     init(&fileLines);
+    init(&arguements);
 
     char *line = NULL;
     size_t len = 0;
@@ -31,16 +30,15 @@ void readAndExecuteBatchScript(const char *filePath) {
         fileLines.push(&fileLines, lineCopy, 1);
     }
 
-    free(line);
-    fclose(inputFile);
 
-    for (int i = 0; i < fileLines.size; i++) {
-        printf("X");
+    for (uint32_t i = 0; i < fileLines.size; i++) {
+        tokenizeString(&arguements, fileLines.array[i]);
+        executeCommands(&arguements);
     }
 
-    fileLines.printArray(&fileLines, 0);
-
     fileLines.freeArray(&fileLines);
+    arguements.freeArray(&arguements);
+    
+    free(line);
+    fclose(inputFile);
 }
-
-#endif
